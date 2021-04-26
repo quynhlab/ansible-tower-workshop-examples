@@ -1,0 +1,72 @@
+---
+- name: BIG-IP SETUP
+  hosts: lb
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Setup provider
+      set_fact:
+       provider:
+        server: "{{private_ip}}"
+        user: "{{ansible_user}}"
+        password: "{{ansible_ssh_pass}}"
+        server_port: "8443"
+        validate_certs: "no"
+
+    - name: SETUP AND GRACEFUL ROLLBACK BIG-IP CONFIGURATION
+      block:
+        - name: CREATE POOL
+          bigip_pool:
+            provider: "{{provider}}"
+            name: "{{ pool_name }}"
+            lb_method: "{{ lb_method }}"
+            monitors: "{{ monitors }}"
+            monitor_type: "and_list"
+
+        - name: ADD POOL MEMBERS
+          bigip_pool_member:
+            provider: "{{provider}}"
+            state: "present"
+            name: "{{ item[0] }}"
+            host: "{{ item[0] }}"
+            pool: "{{ pool_name }}"
+            port: "{{ item[1] }}"
+          with_nested:
+            - "{{ backend }}"
+            - "{{ port_backend }}"
+
+        - name: ADD VIRTUAL SERVER
+          bigip_virtual_server:
+            provider: "{{provider}}"
+            name: "{{ virtual_name }}"
+            destination: "{{private_ip}}"
+            port: "{{ virtual_port }}"
+            enabled_vlans: "all"
+            profiles:
+              - name: f5-tcp-wan
+                context: client-side
+              - name: f5-tcp-lan
+                context: server-side
+            pool: "{{ pool_name }}"
+            snat: "{{ snat }}"
+
+      rescue:
+
+        - name: DELETE VIRTUAL SERVER
+          bigip_virtual_server:
+            provider: "{{provider}}"
+            name: "{{ virtual_name }}"
+            state: absent
+
+        - name: DELETE POOL
+          bigip_pool:
+            provider: "{{provider}}"
+            name: "{{ pool_name }}"
+            state: absent
+
+      always:
+        - name: SAVE RUNNING CONFIGURATION
+          bigip_config:
+            provider: "{{provider}}"
+            save: yes
