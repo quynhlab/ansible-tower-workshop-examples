@@ -40,7 +40,7 @@
           bigip_virtual_server:
             provider: "{{provider}}"
             name: "{{ virtual_name }}"
-            destination: "{{private_ip}}"
+            destination: "{{ virtual_ip }}"
             port: "{{ virtual_port }}"
             enabled_vlans: "all"
             profiles:
