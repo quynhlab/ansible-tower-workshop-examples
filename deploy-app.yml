@@ -51,20 +51,6 @@
             pool: "{{ pool_name }}"
             snat: "{{ snat }}"
 
-      rescue:
-
-        - name: DELETE VIRTUAL SERVER
-          bigip_virtual_server:
-            provider: "{{provider}}"
-            name: "{{ virtual_name }}"
-            state: absent
-
-        - name: DELETE POOL
-          bigip_pool:
-            provider: "{{provider}}"
-            name: "{{ pool_name }}"
-            state: absent
-
       always:
         - name: SAVE RUNNING CONFIGURATION
           bigip_config:
