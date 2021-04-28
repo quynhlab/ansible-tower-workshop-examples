@@ -1,6 +1,6 @@
 ---
 - name: BIG-IP SETUP
-  hosts: lb
+  hosts: "{{ lb }}"
   connection: local
   gather_facts: false
 
@@ -23,6 +23,7 @@
             lb_method: "{{ lb_method }}"
             monitors: "{{ monitors }}"
             monitor_type: "and_list"
+          tags: create_pool
 
         - name: ADD POOL MEMBERS
           bigip_pool_member:
@@ -35,6 +36,7 @@
           with_together:
             - "{{ backend }}"
             - "{{ port_backend }}"
+          tags: add_member
 
         - name: ADD VIRTUAL SERVER
           bigip_virtual_server:
@@ -50,6 +52,7 @@
                 context: server-side
             pool: "{{ pool_name }}"
             snat: "{{ snat }}"
+          tags: create_vs
 
       always:
         - name: SAVE RUNNING CONFIGURATION
