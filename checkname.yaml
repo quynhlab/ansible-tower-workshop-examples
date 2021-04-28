@@ -17,7 +17,7 @@
         server_port: "8443"
         validate_certs: "no"
         
-    - name: Check name of Pool
+    - name: Check name of Pool and namee of VirtualServer
       bigip_command:
         provider: "{{provider}}"
         commands:
