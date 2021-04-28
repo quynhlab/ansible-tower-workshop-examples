@@ -16,10 +16,18 @@
 
 
   tasks:
-    - name: View system version and LTM configuration
+    - name: Check name of Pool
       bigip_command:
         commands:
           - "{{ pool_name }}"
+      register: result
+
+    - debug: msg="{{ result.stdout_lines }}"
+    
+   tasks:
+    - name: Check name of VirtualServer
+      bigip_command:
+        commands:
           - "{{ virtual_name }}"
       register: result
 
