@@ -25,7 +25,7 @@
 
     - debug: msg="{{ result.stdout_lines }}"
     
-   tasks:
+  tasks:
     - name: Check name of VirtualServer
       bigip_command:
         provider: "{{provider}}"
