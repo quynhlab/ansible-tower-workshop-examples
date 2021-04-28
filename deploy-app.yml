@@ -32,7 +32,7 @@
             host: "{{ item[0] }}"
             pool: "{{ pool_name }}"
             port: "{{ item[1] }}"
-          "{{ looptype }}":
+          with_together:
             - "{{ backend }}"
             - "{{ port_backend }}"
 
