@@ -21,7 +21,7 @@
       bigip_command:
         provider: "{{provider}}"
         commands:
-          - "{{ pool_name }}"
+          - list ltm pool "{{ pool_name }}"
       register: result
     - debug: msg="{{ result.stdout_lines }}"
     
@@ -29,7 +29,7 @@
       bigip_command:
         provider: "{{provider}}"
         commands:
-          - "{{ virtual_name }}"
+          - list ltm virtual "{{ virtual_name }}"
       register: result
     - debug: msg="{{ result.stdout_lines }}"
     
