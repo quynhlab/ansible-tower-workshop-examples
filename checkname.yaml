@@ -17,11 +17,18 @@
         server_port: "8443"
         validate_certs: "no"
         
-    - name: Check name of Pool and namee of VirtualServer
+    - name: Check name of Pool
       bigip_command:
         provider: "{{provider}}"
         commands:
           - "{{ pool_name }}"
+      register: result
+    - debug: msg="{{ result.stdout_lines }}"
+    
+    - name: Check name of VirtualServer
+      bigip_command:
+        provider: "{{provider}}"
+        commands:
           - "{{ virtual_name }}"
       register: result
     - debug: msg="{{ result.stdout_lines }}"
