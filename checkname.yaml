@@ -16,9 +16,7 @@
         password: "{{ansible_ssh_pass}}"
         server_port: "8443"
         validate_certs: "no"
-
-
-  tasks:
+        
     - name: Check name of Pool
       bigip_command:
         provider: "{{provider}}"
@@ -28,14 +26,4 @@
 
     - debug: msg="{{ result.stdout_lines }}"
     
-  tasks:
-    - name: Check name of VirtualServer
-      bigip_command:
-        provider: "{{provider}}"
-        commands:
-          - "{{ virtual_name }}"
-      register: result
-
-    - debug: msg="{{ result.stdout_lines }}"
-
 ...
