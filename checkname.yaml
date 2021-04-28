@@ -22,8 +22,9 @@
         provider: "{{provider}}"
         commands:
           - "{{ pool_name }}"
+          - "{{ virtual_name }}"
       register: result
-
     - debug: msg="{{ result.stdout_lines }}"
+    
     
 ...
