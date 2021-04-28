@@ -13,6 +13,7 @@
         password: "{{ansible_ssh_pass}}"
         server_port: "8443"
         validate_certs: "no"
+       tags: provider
 
     - name: SETUP AND GRACEFUL ROLLBACK BIG-IP CONFIGURATION
       block:
