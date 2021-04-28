@@ -19,7 +19,6 @@
     - name: View system version and LTM configuration
       bigip_command:
         commands:
-          - show /sys version detail
           - list /ltm virtual "{{ virtual_name }}"
           - list /ltm pool "{{ pool_name }}"
       register: result
