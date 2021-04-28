@@ -39,6 +39,19 @@
             - "{{ port_backend }}"
           tags: add_member
 
+        - name: REMOVE POOL MEMBERS
+          bigip_pool_member:
+            provider: "{{provider}}"
+            state: "absent"
+            name: "{{ item[0] }}"
+            host: "{{ item[0] }}"
+            pool: "{{ pool_name }}"
+            port: "{{ item[1] }}"
+          with_together:
+            - "{{ backend }}"
+            - "{{ port_backend }}"
+          tags: remove_member
+          
         - name: ADD VIRTUAL SERVER
           bigip_virtual_server:
             provider: "{{provider}}"
