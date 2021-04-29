@@ -1,6 +1,6 @@
 ---
 - name: "Check verify name of Pool and name of VirtualServer"
-  hosts: {{ lb }}
+  hosts: "{{ lb }}"
   connection: local
   gather_facts: false
   
