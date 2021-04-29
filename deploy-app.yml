@@ -66,6 +66,7 @@
                 context: server-side
             pool: "{{ pool_name }}"
             snat: "{{ snat }}"
+            default_persistence_profile: "{{ persistencemode }}"
           tags: create_vs
 
       always:
