@@ -17,12 +17,3 @@
           server_port: 443
           validate_certs: false
         save: true
-    - name: Send notify to Telegram
-      community.general.telegram:
-        token: '1881366819:AAEVMylIZiKE59dHIg7YqbKXIbonwrWOQGQ'
-        api_args:
-          chat_id: -588925616
-          parse_mode: "markdown"
-          text: "Your ADC has been backup"
-          disable_web_page_preview: True
-          disable_notification: True
