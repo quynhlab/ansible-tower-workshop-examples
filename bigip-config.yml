@@ -3,7 +3,10 @@
   hosts: lb
   connection: local
   gather_facts: false
-
+  
+  collections:
+    - f5networks.f5_modules
+    - community.general
   tasks:
     - name: SAVE RUNNING CONFIG ON BIG-IP
       bigip_config:
